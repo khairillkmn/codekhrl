@@ -16,14 +16,14 @@ void tampil();
 int main()
 {
     int pilih,indata;
-    //pilih program.
+
     pilihprogram:
 
-    cout<<"\n";
+    cout <<"\n";
     cout<<"1. Enqueue\n";
     cout<<"2. Dequeue\n";
     cout<<"3. Tampilkan Data\n";
-    cout<<"\nMasukan Pilihan : ";
+    cout<<"\nPilih Opsi : ";
     cin>>pilih;
 
     switch(pilih)
@@ -34,16 +34,17 @@ int main()
                  goto pilihprogram;
                  break;
 
-        case 2 : cout<<"\n\nBerhasil dequeue\n\n";
+        case 2 : cout<<"\nBerhasil dequeue\n";
                  dequeue();
                  goto pilihprogram;
                  break;
 
         case 3 : cout<<"\nTampilkan data : \n";
-                 tampil();goto pilihprogram;
+                 tampil();
+                 goto pilihprogram;
                  break;
 
-        default :cout<<"\nPilihan invalid";
+        default :cout<<"\nPilihan Invalid";
                  break;
     }
     return 0;
@@ -71,8 +72,8 @@ bool isEmpty()
 bool isFull()
 {
     if(antre.tail == MAX)
-    { //Jika max - 1 maka hanya bisa input 7 bilangan.
-            return true;
+    {
+        return true;
     }
     else
     {
@@ -85,13 +86,12 @@ void enqueue(int data)
 {
     if(isFull())
     {
-        cout<<"\nAntrian sudah penuh\n";
+        cout<<"\nQueue penuh\n";
     }
     else
     {
         if(isEmpty())
         {
-            //Jika kosong, head dan tail=0
             antre.head = antre.tail = 0;
             antre.data[antre.tail] = data;
             antre.head++;
@@ -99,17 +99,14 @@ void enqueue(int data)
         }
         else
         {
-            //Jika tidak kosong
             antre.data[antre.tail] = data;
-            //Tambahkan tail karena head kan sudah 1
             antre.tail++;
-            cout<<"\n"<<"["<<data<<"]"<<" Dimasukan kedalam antrian.\n\n";
+            cout<<"\n"<<"["<<data<<"]"<<" Dimasukan ke dalam queue\n";
         }
     }
 }
 
-//cek apakah queue kosong, jika iya tampilkan tulisan queue kosong. jika tidak, dequeue dari queue
-
+//Cek apakah queue kosong, jika iya tampilkan tulisan queue kosong. jika tidak, dequeue dari queue
 int dequeue()
 {
     if(isEmpty())
@@ -130,7 +127,7 @@ int dequeue()
 
 void tampil()
 {
-    cout<<"\nData antrian : \n";
+    cout<<"\nData antrian : \n\n";
     if(isEmpty())
     {
         cout<<"\nAntrian kosong\n";
@@ -149,5 +146,4 @@ void tampil()
             }
         }
     }
-    cout<<endl<<endl;
 }
