@@ -1,94 +1,141 @@
-#include <iostream>
-#include <string>
-#define MAX 20
+#include<iostream>
+#include<stdlib.h>
+
 using namespace std;
 
-void push(char);
-char pop();
-string in2prefix(string);
-char stk[MAX];
-int top = -1;
-bool isFull();
-bool isEmpty();
+struct Tree{
+    char huruf;
+    Tree *left;
+    Tree *right;
+};
 
-bool isFull()
-{
-    if(top == MAX -1)
-        return true;
-    else
-        return false;
-}
+Tree *node, *nodeBaru, *root = NULL, *current;
 
-bool isEmpty()
+Tree *tambahNode(Tree *&current, char data)
 {
-    if(top== -1)
-        return true;
-    else
-        return false;
-}
-
-void push(char oper)
-{
-    if(isFull())
+    if (current == NULL)
     {
-        cout<<" ";
+      current = new Tree;
+      current->huruf = data;
+      current->left = NULL;
+      current->right = NULL;
     }
     else
     {
-        top++;
-        stk[top] = oper;
+      if (data < current->huruf)
+      {
+        tambahNode(current->left, data);
+      }
+      else
+      {
+        tambahNode(current->right, data);
+      }
     }
+
+    return current;
 }
 
-char pop()
+/*void tambahChild(Tree *&current, char data)
 {
-    char ch;
-    if(isEmpty())
+    if(pos == "kiri")
     {
-        cout<< " ";
+        parent->left = nodeBaru;
     }
     else
     {
-        ch = stk[top];
-        stk[top]= '\0';
-        top--;
-        return ch;
+        parent->right = nodeBaru;
     }
-    return 0;
+
+    if (pos == "kanan")
+    {
+      parent->right = nodeBaru;
+    }
+    else
+    {
+      parent->left = nodeBaru;
+    }
+
+    parent = nodeBaru;
+}*/
+
+void preOrder(Tree *current)
+{
+    if (current != NULL)
+    {
+      cout << " " << current->huruf;
+      preOrder(current->left);
+      preOrder(current->right);
+    }
+    cout << "\n";
 }
 
-string in2prefix(string infix)
+void inOrder(Tree *current)
 {
-    int i = 0;
-    string pst = "";
-
-    while(infix[i]!='\0')
+    // kiri parent kanan
+    if (current != NULL)
     {
-        if(infix[i]>='a' && infix[i]<='z' || infix[i]>='A' && infix[i]<='Z')
-        {
-            pst.insert(pst.end(),infix[i]);
-            i++;
-        }
-        else if(infix[i] == '*' )
-        {
-            pop();
-            i++;
-        }
+        inOrder(current->left);
+        cout << " " << current->huruf;
+        inOrder(current->right);
     }
+}
 
-    while(top != -1)
+void postOrder(Tree *current)
+{
+    // kiri kanan parent
+    if (current != NULL)
     {
-        pst.insert(pst.begin(),pop());
+        postOrder(current->left);
+        postOrder(current->right);
+        cout << " " << current->huruf;
     }
-    cout<<"\nSetelah diperbaiki : " << pst <<endl;
-    return pst;
+}
+
+void menu(int pilih)
+{
+    char data;
+    Tree *inputan;
+    switch(pilih)
+    {
+        case 1:
+            cout << "Masukkan satu huruf : ";
+            cin >> data;
+            inputan = tambahNode(node, data);
+            //tambahChild(inputan,"kiri");
+            break;
+        case 2:
+            cout << "Masukkan satu huruf : ";
+            cin >> data;
+            inputan = tambahNode(node, data);
+            //tambahChild(inputan,"kanan");
+            break;
+        case 3:
+            preOrder(node);
+            break;
+        case 4:
+            inOrder(node);
+            break;
+        case 5:
+            postOrder(node);
+            break;
+        case 0: exit(0);break;
+    }
 }
 
 int main()
 {
-    string infix,prefix;
-    cout << "Pesan rusak : ";
-    cin>>infix;
-    prefix = in2prefix(infix);
-    return 0;
+    int pilih;
+    do {
+        cout << endl <<endl;
+        cout << "1. Tambah Kiri" << endl;
+        cout << "2. Tambah Kanan" << endl;
+        cout << "3. Pre Order" << endl;
+        cout << "4. In Order" << endl;
+        cout << "5. Post Order" << endl;
+        cout << "0. Exit" << endl;
+        cout << "Masukkan pilihan : ";
+        cin >> pilih;
+        menu(pilih);
+    }
+    while(pilih !=0);
 }
